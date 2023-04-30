@@ -1,0 +1,9 @@
+{
+  "PluginName":"signPlugin",
+  "Description": "用于群内签到保活的插件",
+  "Author": "enjoy",
+  "Version": 0,
+  "Url": "https://mcenjoy.cn",
+  "SignInfo": "社区签名认证",
+  "Permissions": ["RemoteCallEvent","UploadPermission","SendGroupMsgPermission","RegisterCronEventPermission","ReceiveGroupMsgPermission"]
+}

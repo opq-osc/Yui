@@ -1,0 +1,8 @@
+{
+  "PluginName":"example",
+  "Description": "用于测试的简单插件",
+  "Author": "enjoy",
+  "Version": 0,
+  "Url": "https://mcenjoy.cn",
+  "Permissions": ["SendGroupMsgPermission","ReceiveGroupMsgPermission"]
+}

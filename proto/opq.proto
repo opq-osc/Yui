@@ -1,0 +1,157 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package proto;
+
+option go_package = "Yui/proto";
+
+// go:plugin type=plugin version=1
+service Event {
+  // 插件初始化
+  rpc Init(google.protobuf.Empty) returns (InitReply) {}
+  // 群消息
+  rpc OnGroupMsg(CommonMsg) returns (google.protobuf.Empty) {}
+  // 好友消息
+  rpc OnFriendMsg(CommonMsg) returns (google.protobuf.Empty) {}
+  // 私聊消息
+  rpc OnPrivateMsg(CommonMsg) returns (google.protobuf.Empty) {}
+  // 插件卸载 保存资料 最大等待 2s
+  rpc Unload(google.protobuf.Empty) returns (google.protobuf.Empty) {}
+  // 周期任务唤醒
+  rpc OnCronEvent(CronEventReq) returns (google.protobuf.Empty) {}
+  // 其他插件调用本插件事件
+  rpc OnRemoteCallEvent(RemoteCallReq) returns (RemoteCallReply) {}
+}
+message RemoteCallReq {
+  string srcPluginName = 1;
+  string dstPluginName = 2;
+  string callPath = 3;
+  bytes args = 4;
+}
+message RemoteCallReply {
+  bytes data = 1;
+}
+message CronEventReq {
+  string id = 1;
+}
+
+message InitReply {
+  // 是否初始化成功？
+  bool ok = 1;
+  // 初始化失败信息
+  string message = 2;
+}
+
+message CommonMsg {
+  int64 time = 1; // 消息发送的时间戳
+  int64 selfId = 2; // 机器人QQ号
+  int64 fromUin = 3; // 消息来源 ID
+  int64 senderUin = 4; // 消息来源 ID
+  string message = 5; // 消息内容
+  bytes rawMessage =6; // 原始消息
+  int32 messageId = 7; // 消息ID
+  int32 messageType = 8; // 消息类型
+}
+
+enum LogType //枚举消息类型
+{
+  Debug = 0;
+  Info = 1;
+  Warn =2;
+  Error = 3;
+}
+enum HttpMethod //Http请求类型
+{
+  GET = 0;
+  POST = 1;
+  PUT =2;
+  DELETE = 3;
+}
+enum UploadId
+{
+  Group = 0;
+  Friend = 1;
+}
+// go:plugin type=host
+service Api {
+  rpc Log(LogReq) returns (google.protobuf.Empty){}
+  rpc Http(HttpReq) returns (HttpRes){}
+  rpc SendGroupMsg(MsgReq) returns (SendReply){}
+  rpc SendFriendMsg(MsgReq) returns (SendReply){}
+  rpc SendPrivateMsg(MsgReq) returns (SendReply){}
+  rpc Upload(UploadReq) returns (UploadReply){}
+  rpc RegisterCronJob(CronJob) returns (google.protobuf.Empty) {}
+  rpc RemoveCronJob(CronJob) returns (google.protobuf.Empty) {}
+  // 调用其他插件功能
+  rpc RemoteCall(RemoteCallReq) returns (RemoteCallReply) {}
+}
+
+message CronJob {
+  string spec = 1;
+  string id = 2;
+}
+message LogReq{
+  LogType logType = 1;
+  string msg = 2;
+}
+
+message HttpReq{
+  string url = 1;
+  HttpMethod method = 2;
+  map<string,string> header = 3;
+  bytes content = 4;
+}
+message HttpRes{
+  string header = 1;
+  int32 statusCode = 2;
+  bytes content = 3;
+}
+message TextMsg {
+  string text = 1;
+}
+message File{
+  int64 fileId = 1;
+  string fileMd5 = 2;
+  int32 fileSize = 3;
+  string fileToken = 4;
+}
+message Files {
+  repeated File file = 1;
+
+}
+message JsonMsg {
+  string json = 1;
+}
+message XmlMsg {
+  string xml = 1;
+}
+message MsgReq {
+  int64 toUin = 1;
+  oneof msg {
+    TextMsg textMsg = 5;
+    Files picMsg = 6;
+    XmlMsg xmlMsg = 7;
+    JsonMsg jsonMsg = 8;
+  }
+  repeated int64 atUin = 3;
+  int64 botUin = 4;
+  optional int64 groupCode =9;
+}
+message SendReply{
+  int32  Ret = 1;
+  optional string ErrMsg = 2;
+}
+
+message UploadReq{
+  oneof file {
+    string path = 1;
+    string url = 2;
+    string base64buf = 3;
+  }
+  int64 botUin = 4;
+  UploadId uploadId = 5;
+}
+message UploadReply{
+  int32  Ret = 1;
+  optional string ErrMsg = 2;
+  optional File file = 3;
+}

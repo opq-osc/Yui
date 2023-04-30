@@ -1,0 +1,8 @@
+{
+  "PluginName":"animeCharacter",
+  "Description": "用于获取一个随机的二次元角色的插件",
+  "Author": "enjoy",
+  "Version": 0,
+  "Url": "https://mcenjoy.cn",
+  "Permissions": ["HTTPRequestPermission","UploadPermission","SendGroupMsgPermission","ReceiveGroupMsgPermission","RemoteCallEvent"]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "Yui文档站",
+  "author": "enjoy",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "^1.0.0-alpha.74"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
+  },
+  "compilerOptions": {
+    "lib": ["ES2021", "dom"]
+  }
+}

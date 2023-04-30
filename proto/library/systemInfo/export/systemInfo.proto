@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package proto;
+
+option go_package = "Yui/proto/library/systemInfo/export";
+
+// go:plugin type=host module=systemInfo
+service SystemInfo {
+  rpc CpuInfo(google.protobuf.Empty) returns (SystemInfoReply) {}
+  rpc MemInfo(google.protobuf.Empty) returns (SystemInfoReply) {}
+}
+
+message SystemInfoReply {
+  bytes data = 1;
+}
