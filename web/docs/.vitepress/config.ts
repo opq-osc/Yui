@@ -42,9 +42,9 @@ export default defineConfig({
             pattern: ({ relativePath }) => {
                 // @ts-ignore
                 if (relativePath.startsWith('packages/')) {
-                    return `hhttps://github.com/opq-osc/Yui/main/web/${relativePath}`
+                    return `hhttps://github.com/opq-osc/Yui/tree/main/web/${relativePath}`
                 } else {
-                    return `https://github.com/opq-osc/Yui/main/web/docs/${relativePath}`
+                    return `https://github.com/opq-osc/Yui/tree/main/web/docs/${relativePath}`
                 }
             }
         }
