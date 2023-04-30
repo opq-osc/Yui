@@ -1,0 +1,7 @@
+*.exe
+go.sum
+*.log
+.idea
+*.opq
+dist
+config.yaml

@@ -5,8 +5,6 @@ go 1.19
 require (
 	github.com/charmbracelet/log v0.2.1
 	github.com/ethereum/go-ethereum v1.11.6
-	github.com/fogleman/gg v1.3.0
-	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/google/uuid v1.3.0
 	github.com/imroc/req/v3 v3.33.2
 	github.com/knqyf263/go-plugin v0.7.1-0.20230420183704-82cf9090ca1e
@@ -20,7 +18,6 @@ require (
 	github.com/spf13/viper v1.15.0
 	github.com/tetratelabs/wazero v1.0.3
 	github.com/tidwall/gjson v1.14.4
-	golang.org/x/image v0.0.0-20190802002840-cff245a6509b
 	golang.org/x/tools v0.8.0
 	google.golang.org/protobuf v1.30.0
 )
@@ -63,6 +60,7 @@ require (
 	github.com/quic-go/quic-go v0.32.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rotisserie/eris v0.5.4 // indirect
+	github.com/shoenig/go-m1cpu v0.1.4 // indirect
 	github.com/spf13/afero v1.9.3 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect

@@ -1,0 +1,7 @@
+httpproxy: http://127.0.0.1:7890 # 插件 HTTP 服务时会使用的 Proxy
+opqurl: http://127.0.0.1:8086 # OPQ 的地址
+admin:
+  - 0 # 管理员
+plugin:
+  env:
+    test: opqbot # 环境变量 将会传递到插件内
