@@ -1,13 +1,13 @@
 package plugin
 
 import (
-	"Yui/plugin/S"
-	"Yui/plugin/meta"
-	"Yui/plugin/repository"
-	"Yui/session"
 	"context"
 	"fmt"
 	"github.com/opq-osc/OPQBot/v2/events"
+	"github.com/opq-osc/Yui/plugin/S"
+	"github.com/opq-osc/Yui/plugin/meta"
+	"github.com/opq-osc/Yui/plugin/repository"
+	"github.com/opq-osc/Yui/session"
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
 	"strings"

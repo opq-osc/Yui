@@ -3,11 +3,11 @@
 package main
 
 import (
-	"Yui/plugin/S"
-	"Yui/proto"
-	"Yui/proto/library/systemInfo/export"
 	"context"
 	"fmt"
+	"github.com/opq-osc/Yui/plugin/S"
+	"github.com/opq-osc/Yui/proto"
+	"github.com/opq-osc/Yui/proto/library/systemInfo/export"
 
 	"github.com/knqyf263/go-plugin/types/known/emptypb"
 )

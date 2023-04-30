@@ -1,11 +1,11 @@
 package systemInfo
 
 import (
-	"Yui/plugin/meta"
-	"Yui/proto/library/systemInfo/export"
 	"context"
 	"fmt"
 	"github.com/knqyf263/go-plugin/types/known/emptypb"
+	"github.com/opq-osc/Yui/plugin/meta"
+	"github.com/opq-osc/Yui/proto/library/systemInfo/export"
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/mem"
 )

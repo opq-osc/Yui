@@ -17,6 +17,7 @@ import (
 	wazero "github.com/tetratelabs/wazero"
 	api "github.com/tetratelabs/wazero/api"
 	sys "github.com/tetratelabs/wazero/sys"
+	os "os"
 )
 
 const (
@@ -354,7 +355,11 @@ type event interface {
 	Event
 }
 
-func (p *EventPlugin) LoadWithBytes(ctx context.Context, b []byte, hostFunctions Api) (event, error) {
+func (p *EventPlugin) Load(ctx context.Context, pluginPath string, hostFunctions Api) (event, error) {
+	b, err := os.ReadFile(pluginPath)
+	if err != nil {
+		return nil, err
+	}
 
 	// Create a new runtime so that multiple modules will not conflict
 	r, err := p.newRuntime(ctx)
@@ -387,6 +392,100 @@ func (p *EventPlugin) LoadWithBytes(ctx context.Context, b []byte, hostFunctions
 	}
 
 	// Compare API versions with the loading plugin
+	apiVersion := module.ExportedFunction("event_api_version")
+	if apiVersion == nil {
+		return nil, errors.New("event_api_version is not exported")
+	}
+	results, err := apiVersion.Call(ctx)
+	if err != nil {
+		return nil, err
+	} else if len(results) != 1 {
+		return nil, errors.New("invalid event_api_version signature")
+	}
+	if results[0] != EventPluginAPIVersion {
+		return nil, fmt.Errorf("API version mismatch, host: %d, plugin: %d", EventPluginAPIVersion, results[0])
+	}
+
+	init := module.ExportedFunction("event_init")
+	if init == nil {
+		return nil, errors.New("event_init is not exported")
+	}
+	ongroupmsg := module.ExportedFunction("event_on_group_msg")
+	if ongroupmsg == nil {
+		return nil, errors.New("event_on_group_msg is not exported")
+	}
+	onfriendmsg := module.ExportedFunction("event_on_friend_msg")
+	if onfriendmsg == nil {
+		return nil, errors.New("event_on_friend_msg is not exported")
+	}
+	onprivatemsg := module.ExportedFunction("event_on_private_msg")
+	if onprivatemsg == nil {
+		return nil, errors.New("event_on_private_msg is not exported")
+	}
+	unload := module.ExportedFunction("event_unload")
+	if unload == nil {
+		return nil, errors.New("event_unload is not exported")
+	}
+	oncronevent := module.ExportedFunction("event_on_cron_event")
+	if oncronevent == nil {
+		return nil, errors.New("event_on_cron_event is not exported")
+	}
+	onremotecallevent := module.ExportedFunction("event_on_remote_call_event")
+	if onremotecallevent == nil {
+		return nil, errors.New("event_on_remote_call_event is not exported")
+	}
+
+	malloc := module.ExportedFunction("malloc")
+	if malloc == nil {
+		return nil, errors.New("malloc is not exported")
+	}
+
+	free := module.ExportedFunction("free")
+	if free == nil {
+		return nil, errors.New("free is not exported")
+	}
+	return &eventPlugin{
+		runtime:           r,
+		module:            module,
+		malloc:            malloc,
+		free:              free,
+		init:              init,
+		ongroupmsg:        ongroupmsg,
+		onfriendmsg:       onfriendmsg,
+		onprivatemsg:      onprivatemsg,
+		unload:            unload,
+		oncronevent:       oncronevent,
+		onremotecallevent: onremotecallevent,
+	}, nil
+}
+func (p *EventPlugin) LoadWithBytes(ctx context.Context, b []byte, hostFunctions Api) (event, error) {
+
+	r, err := p.newRuntime(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	h := _api{hostFunctions}
+
+	if err := h.Instantiate(ctx, r); err != nil {
+		return nil, err
+	}
+
+	code, err := r.CompileModule(ctx, b)
+	if err != nil {
+		return nil, err
+	}
+
+	module, err := r.InstantiateModule(ctx, code, p.moduleConfig)
+	if err != nil {
+
+		if exitErr, ok := err.(*sys.ExitError); ok && exitErr.ExitCode() != 0 {
+			return nil, fmt.Errorf("unexpected exit_code: %d", exitErr.ExitCode())
+		} else if !ok {
+			return nil, err
+		}
+	}
+
 	apiVersion := module.ExportedFunction("event_api_version")
 	if apiVersion == nil {
 		return nil, errors.New("event_api_version is not exported")

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/go-toolsmith/astcopy"
 	"go/ast"
 	"go/format"
 	"go/parser"
@@ -21,21 +22,23 @@ func main() {
 		case *ast.FuncDecl:
 			if v.Recv != nil {
 				if v.Name.Name == "Load" {
-					v.Name.Name = "LoadWithBytes"
-					v.Type.Params.List[1].Names[0].Name = "b"
-					v.Type.Params.List[1].Type.(*ast.Ident).Name = "[]byte"
-					v.Body.List = v.Body.List[2:]
+					newFunc := astcopy.FuncDecl(v)
+					newFunc.Name.Name = "LoadWithBytes"
+					newFunc.Type.Params.List[1].Names[0].Name = "b"
+					newFunc.Type.Params.List[1].Type.(*ast.Ident).Name = "[]byte"
+					newFunc.Body.List = newFunc.Body.List[2:]
+					cursor.InsertAfter(newFunc)
 				}
 			}
-		case *ast.GenDecl:
-			if v.Tok.String() == "import" {
-				for i, j := range v.Specs {
-					imp := j.(*ast.ImportSpec)
-					if imp.Name.Name == "os" {
-						v.Specs = append(v.Specs[:i], v.Specs[i+1:]...)
-					}
-				}
-			}
+			//case *ast.GenDecl:
+			//	if v.Tok.String() == "import" {
+			//		for i, j := range v.Specs {
+			//			imp := j.(*ast.ImportSpec)
+			//			if imp.Name.Name == "os" {
+			//				v.Specs = append(v.Specs[:i], v.Specs[i+1:]...)
+			//			}
+			//		}
+			//	}
 
 		}
 		return true

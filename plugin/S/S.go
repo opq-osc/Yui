@@ -3,9 +3,9 @@
 package S
 
 import (
-	"Yui/proto"
 	"context"
 	"github.com/opq-osc/OPQBot/v2/events"
+	"github.com/opq-osc/Yui/proto"
 )
 
 func LogInfo(ctx context.Context, msg string) {

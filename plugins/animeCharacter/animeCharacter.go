@@ -3,12 +3,12 @@
 package main
 
 import (
-	"Yui/plugin/S"
-	"Yui/plugins/animeCharacter/config"
-	"Yui/proto"
 	"context"
 	"fmt"
 	"github.com/knqyf263/go-plugin/types/known/emptypb"
+	"github.com/opq-osc/Yui/plugin/S"
+	"github.com/opq-osc/Yui/plugins/animeCharacter/config"
+	"github.com/opq-osc/Yui/proto"
 	"github.com/tidwall/gjson"
 	"math/rand"
 	"time"

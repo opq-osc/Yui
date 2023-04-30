@@ -14,7 +14,7 @@ hero:
       link: /guide/开始
     - theme: alt
       text: GitHub
-      link: 
+      link: https://github.com/opq-osc/Yui
 features:
   - icon: 🍭
     title: 简单，易用

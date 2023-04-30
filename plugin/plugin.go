@@ -1,12 +1,6 @@
 package plugin
 
 import (
-	"Yui/cron"
-	"Yui/opq"
-	"Yui/plugin/meta"
-	"Yui/proto"
-	"Yui/proto/library/systemInfo"
-	systemInfoExport "Yui/proto/library/systemInfo/export"
 	"bytes"
 	"context"
 	"crypto/ecdsa"
@@ -19,6 +13,12 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/knqyf263/go-plugin/types/known/emptypb"
 	"github.com/opq-osc/OPQBot/v2/events"
+	"github.com/opq-osc/Yui/cron"
+	"github.com/opq-osc/Yui/opq"
+	"github.com/opq-osc/Yui/plugin/meta"
+	"github.com/opq-osc/Yui/proto"
+	"github.com/opq-osc/Yui/proto/library/systemInfo"
+	systemInfoExport "github.com/opq-osc/Yui/proto/library/systemInfo/export"
 	cron2 "github.com/robfig/cron/v3"
 	"github.com/spf13/viper"
 	"github.com/tetratelabs/wazero"

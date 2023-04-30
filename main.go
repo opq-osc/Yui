@@ -1,12 +1,12 @@
 package main
 
 import (
-	_ "Yui/config"
-	"Yui/cron"
-	"Yui/opq"
-	"Yui/plugin"
 	"context"
 	"github.com/charmbracelet/log"
+	_ "github.com/opq-osc/Yui/config"
+	"github.com/opq-osc/Yui/cron"
+	"github.com/opq-osc/Yui/opq"
+	"github.com/opq-osc/Yui/plugin"
 	"github.com/spf13/viper"
 )
 

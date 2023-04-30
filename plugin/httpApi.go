@@ -1,12 +1,12 @@
 package plugin
 
 import (
-	"Yui/plugin/meta"
-	"Yui/proto"
 	"context"
 	"fmt"
 	"github.com/charmbracelet/log"
 	"github.com/imroc/req/v3"
+	"github.com/opq-osc/Yui/plugin/meta"
+	"github.com/opq-osc/Yui/proto"
 	"github.com/spf13/viper"
 )
 

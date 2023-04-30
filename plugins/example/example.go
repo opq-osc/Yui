@@ -3,12 +3,12 @@
 package main
 
 import (
-	"Yui/plugin/meta"
-	"Yui/proto"
 	"context"
 	"encoding/base64"
 	"github.com/google/uuid"
 	"github.com/knqyf263/go-plugin/types/known/emptypb"
+	"github.com/opq-osc/Yui/plugin/meta"
+	"github.com/opq-osc/Yui/proto"
 	"os"
 )
 

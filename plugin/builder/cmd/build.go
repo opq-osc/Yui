@@ -4,7 +4,6 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"Yui/plugin/meta"
 	"bytes"
 	"crypto/ecdsa"
 	"crypto/rand"
@@ -14,6 +13,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/opq-osc/Yui/plugin/meta"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io"

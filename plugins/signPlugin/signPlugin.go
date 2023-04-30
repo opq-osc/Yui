@@ -3,13 +3,13 @@
 package main
 
 import (
-	"Yui/plugin/S"
-	anime "Yui/plugins/animeCharacter/config"
-	"Yui/plugins/signPlugin/config"
-	"Yui/proto"
 	"context"
 	"fmt"
 	"github.com/knqyf263/go-plugin/types/known/emptypb"
+	"github.com/opq-osc/Yui/plugin/S"
+	anime "github.com/opq-osc/Yui/plugins/animeCharacter/config"
+	"github.com/opq-osc/Yui/plugins/signPlugin/config"
+	"github.com/opq-osc/Yui/proto"
 	"strconv"
 	"strings"
 	"time"

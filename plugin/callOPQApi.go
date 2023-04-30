@@ -1,12 +1,12 @@
 package plugin
 
 import (
-	"Yui/opq"
-	"Yui/plugin/meta"
-	"Yui/proto"
 	"context"
 	"fmt"
 	"github.com/opq-osc/OPQBot/v2/apiBuilder"
+	"github.com/opq-osc/Yui/opq"
+	"github.com/opq-osc/Yui/plugin/meta"
+	"github.com/opq-osc/Yui/proto"
 )
 
 func (p *Plugin) SendFriendMsg(ctx context.Context, request *proto.MsgReq) (*proto.SendReply, error) {

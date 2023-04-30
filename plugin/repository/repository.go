@@ -1,11 +1,11 @@
 package repository
 
 import (
-	"Yui/plugin/meta"
 	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/imroc/req/v3"
+	"github.com/opq-osc/Yui/plugin/meta"
 	"github.com/spf13/viper"
 )
 

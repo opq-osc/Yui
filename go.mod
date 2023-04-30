@@ -1,14 +1,16 @@
-module Yui
+module github.com/opq-osc/Yui
 
 go 1.19
 
 require (
 	github.com/charmbracelet/log v0.2.1
 	github.com/ethereum/go-ethereum v1.11.6
+	github.com/go-toolsmith/astcopy v1.1.0
 	github.com/google/uuid v1.3.0
 	github.com/imroc/req/v3 v3.33.2
 	github.com/knqyf263/go-plugin v0.7.1-0.20230420183704-82cf9090ca1e
 	github.com/mailru/easyjson v0.7.7
+	github.com/manifoldco/promptui v0.9.0
 	github.com/mcoo/OPQBot v0.2.2-0.20230415115049-02b00e2cf9e1
 	github.com/opq-osc/OPQBot/v2 v2.0.0-20230427091225-f73faded2e3b
 	github.com/robfig/cron/v3 v3.0.1
@@ -26,6 +28,7 @@ require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
 	github.com/charmbracelet/lipgloss v0.7.1 // indirect
+	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
@@ -72,6 +75,7 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	golang.org/x/crypto v0.4.0 // indirect
 	golang.org/x/exp v0.0.0-20230206171751-46f607a40771 // indirect
+	golang.org/x/exp/typeparams v0.0.0-20230203172020-98cc5a0785f9 // indirect
 	golang.org/x/mod v0.10.0 // indirect
 	golang.org/x/net v0.9.0 // indirect
 	golang.org/x/sys v0.7.0 // indirect
