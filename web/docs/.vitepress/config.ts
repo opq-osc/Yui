@@ -7,6 +7,7 @@ export default defineConfig({
     markdown: {
         lineNumbers: true
     },
+    lang: 'zh-CN',
     themeConfig: {
         nav: [
             { text: 'OPQBot', link: 'https://opqbot.com/' },

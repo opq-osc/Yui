@@ -12,9 +12,9 @@ require (
 	github.com/mailru/easyjson v0.7.7
 	github.com/manifoldco/promptui v0.9.0
 	github.com/mcoo/OPQBot v0.2.2-0.20230415115049-02b00e2cf9e1
-	github.com/opq-osc/OPQBot/v2 v2.0.0-20230427091225-f73faded2e3b
+	github.com/opq-osc/OPQBot/v2 v2.0.0-20230501145629-6fc4f36b6a66
 	github.com/robfig/cron/v3 v3.0.1
-	github.com/shirou/gopsutil/v3 v3.23.3
+	github.com/shirou/gopsutil/v3 v3.23.4
 	github.com/spf13/cast v1.5.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.15.0
@@ -63,7 +63,7 @@ require (
 	github.com/quic-go/quic-go v0.32.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rotisserie/eris v0.5.4 // indirect
-	github.com/shoenig/go-m1cpu v0.1.4 // indirect
+	github.com/shoenig/go-m1cpu v0.1.5 // indirect
 	github.com/spf13/afero v1.9.3 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect

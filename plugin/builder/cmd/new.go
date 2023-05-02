@@ -4,13 +4,15 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/manifoldco/promptui"
-	"github.com/opq-osc/Yui/plugin/meta"
 	"github.com/spf13/cobra"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
 
@@ -21,25 +23,27 @@ var newCmd = &cobra.Command{
 	Long:  `创建一个新的插件`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		prompt := promptui.Prompt{
-			Label: "plugin name",
+			Label:       "plugin name",
+			HideEntered: true,
+			Validate:    ValidAllAlpha,
 		}
 		var err error
-		pluginInfo := &meta.PluginMeta{}
+		pluginInfo := &BuildMetaInfo{}
 		pluginInfo.PluginName, err = prompt.Run()
 		if err != nil {
 			return err
 		}
-		prompt = promptui.Prompt{Label: "plugin description"}
+		prompt = promptui.Prompt{Label: "plugin description", HideEntered: true}
 		pluginInfo.Description, err = prompt.Run()
 		if err != nil {
 			return err
 		}
-		prompt = promptui.Prompt{Label: "author"}
+		prompt = promptui.Prompt{Label: "author", HideEntered: true}
 		pluginInfo.Author, err = prompt.Run()
 		if err != nil {
 			return err
 		}
-		prompt = promptui.Prompt{Label: "author url"}
+		prompt = promptui.Prompt{Label: "author url", HideEntered: true}
 		pluginInfo.Url, err = prompt.Run()
 		if err != nil {
 			return err
@@ -71,7 +75,12 @@ var newCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		err = os.WriteFile(filepath.Join(pluginInfo.PluginName, "meta.json"), []byte(metaInfo), 0777)
+		var buf bytes.Buffer
+		err = json.Indent(&buf, metaInfo, "", "\t")
+		if err != nil {
+			return err
+		}
+		err = os.WriteFile(filepath.Join(pluginInfo.PluginName, "meta.json"), buf.Bytes(), 0777)
 		if err != nil {
 			return err
 		}
@@ -93,12 +102,18 @@ func init() {
 	// newCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
+func ValidAllAlpha(s string) error {
+	if match, _ := regexp.MatchString(`^[A-Za-z0-9]+$`, s); match {
+		return nil
+	}
+	return fmt.Errorf("err")
+}
+
 var goFile = `//go:build tinygo.wasm
 
 package main
 
 import (
-	"github.com/opq-osc/Yui/plugin/meta"
 	"github.com/opq-osc/Yui/proto"
 	"context"
 	"github.com/knqyf263/go-plugin/types/known/emptypb"

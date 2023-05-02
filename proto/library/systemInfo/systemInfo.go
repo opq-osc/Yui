@@ -32,6 +32,7 @@ func (s SystemInfo) CpuInfo(ctx context.Context, empty *emptypb.Empty) (*export.
 	}
 	return &export.SystemInfoReply{Data: data}, nil
 }
+
 func (s SystemInfo) MemInfo(ctx context.Context, empty *emptypb.Empty) (*export.SystemInfoReply, error) {
 	if s.PluginInfo.Permissions&meta.SystemInfoPermission == 0 {
 		return nil, fmt.Errorf("缺少获取系统信息权限")
@@ -41,6 +42,25 @@ func (s SystemInfo) MemInfo(ctx context.Context, empty *emptypb.Empty) (*export.
 		return nil, err
 	}
 	swapMemory, err := mem.SwapMemory()
+	if err != nil {
+		return nil, err
+	}
+	devicesMem, err := mem.SwapDevices()
+	if err != nil {
+		return nil, err
+	}
+	var devices []*struct {
+		Name      string `json:"name"`
+		UsedBytes uint64 `json:"usedBytes"`
+		FreeBytes uint64 `json:"freeBytes"`
+	}
+	for _, v := range devicesMem {
+		devices = append(devices, &struct {
+			Name      string `json:"name"`
+			UsedBytes uint64 `json:"usedBytes"`
+			FreeBytes uint64 `json:"freeBytes"`
+		}{Name: v.Name, UsedBytes: v.UsedBytes, FreeBytes: v.FreeBytes})
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +113,7 @@ func (s SystemInfo) MemInfo(ctx context.Context, empty *emptypb.Empty) (*export.
 		PgOut       uint64  `json:"pgOut"`
 		PgFault     uint64  `json:"pgFault"`
 		PgMajFault  uint64  `json:"pgMajFault"`
-	})(swapMemory)}).MarshalJSON()
+	})(swapMemory), SwapDevices: devices}).MarshalJSON()
 	if err != nil {
 		return nil, err
 	}
