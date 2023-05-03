@@ -10,6 +10,7 @@ import (
 	"github.com/opq-osc/Yui/session"
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
+	"strconv"
 	"strings"
 )
 
@@ -55,6 +56,30 @@ func (m *Manager) OnGroupMsgAdmin(ctx context.Context, event events.IEvent) bool
 			} else {
 				S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg("卸载成功").Do(ctx)
 			}
+		case "autoList":
+			plugins := GetAutoLoadPlugins()
+			msg := []string{"自动启动列表"}
+			for _, v := range plugins {
+				msg = append(msg, fmt.Sprintf("%s", v.PluginName))
+			}
+			if len(msg) == 0 {
+				msg = []string{"没有插件呢？"}
+			}
+			S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg(strings.Join(msg, "\n")).Do(ctx)
+		case "enable":
+			err := AddAutoLoadPlugin(cmd[2])
+			if err != nil {
+				S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg(err.Error()).Do(ctx)
+			} else {
+				S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg("成功").Do(ctx)
+			}
+		case "disable":
+			err := RemoveAutoLoadPlugin(cmd[2])
+			if err != nil {
+				S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg(err.Error()).Do(ctx)
+			} else {
+				S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg("成功").Do(ctx)
+			}
 		case "load":
 			pluginInfo, err := GetPluginInfo(cmd[2])
 			if err != nil {
@@ -81,17 +106,40 @@ func (m *Manager) OnGroupMsgAdmin(ctx context.Context, event events.IEvent) bool
 			S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg(strings.Join(msg, "\n")).Do(ctx)
 		case "yun":
 			switch cmd[2] {
+			case "install":
+				listsI, err := s.Get("yum install")
+				if err == nil && listsI != nil {
+					lists, ok := listsI.([]repository.Plugin)
+					if ok {
+						if index, err := strconv.Atoi(cmd[3]); err == nil {
+							if index >= 0 && index < len(lists) {
+								S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg("开始下载").Do(ctx)
+								err = repository.DownloadPlugin(ctx, lists[index])
+								if err != nil {
+									S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg(err.Error()).Do(ctx)
+								} else {
+									S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg("下载成功，请自行载入").Do(ctx)
+								}
+							} else {
+								return true
+							}
+						}
+					}
+				}
+				s.Delete("yum install")
 			case "list":
 				lists, err := repository.GetPluginList(ctx)
 				if err != nil {
 					S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg(err.Error()).Do(ctx)
 					return true
 				}
-				var msg = []string{"仓库插件："}
-				for _, v := range lists {
-					msg = append(msg, fmt.Sprintf("%s 作者:%s 说明:%s 权限:%v", v.PluginName, v.Author, v.Description, v.Permissions))
+				var msg = []string{"仓库插件(您可以输入.admin yun install 序号 下载)："}
+				for i, v := range lists {
+					msg = append(msg, fmt.Sprintf("[%d]%s 作者:%s 说明:%s 权限:%v", i, v.PluginName, v.Author, v.Description, v.Permissions))
 				}
 				S.GetApi(event).SendMsg().GroupMsg().ToUin(event.ParseGroupMsg().GetGroupUin()).TextMsg(strings.Join(msg, "\n")).Do(ctx)
+				s.Set("yum install", lists)
+
 			}
 		case "permission":
 			plugin, err := M.GetPlugin(cmd[2])

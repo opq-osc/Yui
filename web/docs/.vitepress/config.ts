@@ -47,7 +47,13 @@ export default defineConfig({
                 } else {
                     return `https://github.com/opq-osc/Yui/tree/main/web/docs/${relativePath}`
                 }
+            },
+            text: '在 Github 上编辑此页面'
+        },
+        socialLinks: [
+            {
+                icon:"github", link:'https://github.com/opq-osc/Yui'
             }
-        }
+        ]
     },
 })

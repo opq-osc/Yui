@@ -16,7 +16,7 @@ func (p *Plugin) Http(ctx context.Context, request *proto.HttpReq) (*proto.HttpR
 	}
 	log.Debug("插件发起HTTP连接", "plugin", p.Meta.PluginName, "method", request.Method, "url", request.Url)
 	var r *req.Request
-	if proxy := viper.GetString("httpProxy"); proxy != "" {
+	if proxy := viper.GetString("httpPluginProxy"); proxy != "" {
 		r = req.C().SetProxyURL(proxy).R().SetContext(ctx)
 	} else {
 		r = req.R().SetContext(ctx)

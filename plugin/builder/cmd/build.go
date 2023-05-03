@@ -164,5 +164,5 @@ func init() {
 	rootCmd.AddCommand(buildCmd)
 	buildCmd.Flags().StringVarP(&tinyGoPath, "tinyGoPath", "t", "tinygo", "设置tinyGo程序路径")
 	buildCmd.Flags().StringVarP(&output, "output", "o", "", "设置输出插件文件名，不包含后缀")
-	buildCmd.Flags().StringVarP(&privateKey, "privateKey", "p", viper.GetString("OPQPrivateKey"), "为插件签名")
+	buildCmd.Flags().StringVarP(&privateKey, "privateKey", "p", viper.GetString("OPQ_KEY"), "为插件签名")
 }

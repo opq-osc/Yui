@@ -228,8 +228,8 @@ func (m *Manager) GetAllPlugins() map[string]*Plugin {
 	})
 	return plugins
 }
-func GetPluginInfo(pluginPath string) (*meta.PluginMeta, error) {
-	f, err := os.ReadFile(pluginPath)
+func GetPluginInfo(pluginName string) (*meta.PluginMeta, error) {
+	f, err := os.ReadFile(filepath.Join("plugins", pluginName+".opq"))
 	if err != nil {
 		return nil, err
 	}
@@ -331,7 +331,7 @@ func GetPluginInfo(pluginPath string) (*meta.PluginMeta, error) {
 */
 
 func (m *Manager) LoadPlugin(ctx context.Context, pluginPath string) error {
-	f, err := os.ReadFile(pluginPath)
+	f, err := os.ReadFile(filepath.Join("plugins", pluginPath+".opq"))
 	if err != nil {
 		return err
 	}
